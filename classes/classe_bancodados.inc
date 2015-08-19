@@ -121,24 +121,21 @@ abstract class BancoDados {
 
 class mysql extends BancoDados{
 
-	 protected static $instance;
-
 	 function __construct(){
 		  //Ensure reporting is setup correctly
-	   	mysqli_report(MYSQLI_REPORT_STRICT);
+	   	//mysqli_report(MYSQLI_REPORT_STRICT);
 
-			define("MYSQL_CONN_ERROR", "Unable to connect to database.");
+			//define("MYSQL_CONN_ERROR", "Unable to connect to database.");
 	 }
 
 
    // Padrão singleton getinstance
-   public static function getinstance(){
-
-			 if($instance == null){
-		      self::instance = new mysqli('localhost', 'root', '');
-		  }
-
-			 return self::instance;
+   public function Conectar(){
+		  //try {
+           $conn = $this->GetConn();
+      //     } catch (mysqli_sql_exception $e) {
+      //         throw $e;
+			//				 echo MYSQL_CONN_ERROR;
+      //     }
+      //}
 	 }
-
-}

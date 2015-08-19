@@ -1,6 +1,6 @@
 <?php
 /**
- * Classe Básica para acesso a Banco de dados
+ * Classe Bï¿½sica para acesso a Banco de dados
  *	@abstract
  */
 abstract class BancoDados {
@@ -19,13 +19,32 @@ abstract class BancoDados {
 	protected $_ind_case = CASE_UPPER;
 
 	abstract public function Conectar();
+	/*
 	abstract public function executaSQL($_sql);
 	abstract protected function SetNumRows();
 	abstract protected function navegainterno($_pos);
 	abstract protected function proximointerno();
 	abstract public function escapeString($_str);
 	abstract public function getLimit($_arr);
-	abstract protected function SetAffectedRows();
+	abstract protected function SetAffectedRows();*/
+
+  public function GetConn(){
+		if(! $this->_conn){
+			   $this->SetConn();
+	  }
+
+		return $this->_conn;
+	}
+
+	public function SetConn(){
+		if(! $this->_conn){
+			$this->_conn = new mysqli('localhost', 'root', '');
+	  }
+
+		else{
+			return $this->_conn;
+		}
+	}
 
 	public function SetServidor($_servidor) {
 	}
@@ -98,5 +117,28 @@ abstract class BancoDados {
 	}
 }
 
+
+
+class mysql extends BancoDados{
+
+	 protected static $instance;
+
+	 function __construct(){
+		  //Ensure reporting is setup correctly
+	   	mysqli_report(MYSQLI_REPORT_STRICT);
+
+			define("MYSQL_CONN_ERROR", "Unable to connect to database.");
+	 }
+
+
+   // PadrÃ£o singleton getinstance
+   public static function getinstance(){
+
+			 if($instance == null){
+		      self::instance = new mysqli('localhost', 'root', '');
+		  }
+
+			 return self::instance;
+	 }
+
 }
-?>

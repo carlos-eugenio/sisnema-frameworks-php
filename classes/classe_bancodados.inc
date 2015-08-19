@@ -5,8 +5,8 @@
  */
 abstract class BancoDados {
 	protected $_Tipo = null;	// Definido por cada banco de dados
-	protected $_Servidor = 'localhost';
-	protected $_Porta = 0;
+	protected $_Servidor;
+	protected $_Porta;
 	protected $_Usuario;
 	protected $_Senha;
 	protected $_Banco;
@@ -19,9 +19,8 @@ abstract class BancoDados {
 	protected $_ind_case = CASE_UPPER;
 
 	abstract public function Conectar();
-	/*
 	abstract public function executaSQL($_sql);
-	abstract protected function SetNumRows();
+	/*abstract protected function SetNumRows();
 	abstract protected function navegainterno($_pos);
 	abstract protected function proximointerno();
 	abstract public function escapeString($_str);
@@ -38,7 +37,7 @@ abstract class BancoDados {
 
 	public function SetConn(){
 		if(! $this->_conn){
-			$this->_conn = new mysqli('localhost', 'root', '');
+			$this->_conn = new mysqli($this->GetServidor(), $this->GetUsuario(), $this->GetSenha(), $this->GetBanco());
 	  }
 
 		else{
@@ -46,20 +45,46 @@ abstract class BancoDados {
 		}
 	}
 
+
 	public function SetServidor($_servidor) {
+		  $this->_Servidor = $_servidor;
 	}
+
+	public function GetServidor() {
+		  return $this->_Servidor;
+	}
+
 
 	public function SetPorta($_porta) {
 	}
 
+
 	public function SetUsuario($_usuario) {
+		$this->_Usuario = $_usuario;
 	}
+
+	public function GetUsuario() {
+			return $this->_Usuario;
+	}
+
 
 	public function SetSenha($_senha) {
+		  $this->_Senha = $_senha;
 	}
 
-	public function SetBanco($_banco) {
+	public function GetSenha() {
+			return $this->_Senha;
 	}
+
+
+	public function SetBanco($_banco) {
+		  $this->_Banco = $_banco;
+	}
+
+	public function GetBanco() {
+		  return $this->_Banco;
+	}
+
 
 	public function startTransaction() {
 	}
@@ -81,7 +106,6 @@ abstract class BancoDados {
 
 	public function transforma() {
 	}
-
 
 	public function navega() {
 	}
@@ -122,20 +146,18 @@ abstract class BancoDados {
 class mysql extends BancoDados{
 
 	 function __construct(){
-		  //Ensure reporting is setup correctly
-	   	//mysqli_report(MYSQLI_REPORT_STRICT);
-
-			//define("MYSQL_CONN_ERROR", "Unable to connect to database.");
+			$this->SetServidor('localhost');
+			$this->SetUsuario('root');
+			$this->SetSenha('');
+			$this->SetBanco('bdfw');
 	 }
 
 
-   // Padrão singleton getinstance
    public function Conectar(){
-		  //try {
-           $conn = $this->GetConn();
-      //     } catch (mysqli_sql_exception $e) {
-      //         throw $e;
-			//				 echo MYSQL_CONN_ERROR;
-      //     }
-      //}
+      $this->GetConn();
 	 }
+
+	 public function executaSQL($_sql){
+		  return $this->GetConn()->query($_sql);
+	 }
+}

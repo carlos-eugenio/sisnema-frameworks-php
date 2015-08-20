@@ -172,14 +172,43 @@ class mysql extends BancoDados{
 
 	 // função criada em aula ---------------
 
-	 public function insertSQL($table, $fields, $values){
+	 public function insertSQL($nomeDaTabela, $arrCampos, $arrValores){
 
+     $strCampos = implode(', ', $arrCampos);
+		 $totalArgumentos = func_num_args();
+		 $arrArgumentos = func_get_args();
+		 $arrStrTodosValores = array();
+
+		 function test_alter(&$item) {
+			   $item = "'$item'";
+		 }
+
+		 for ($i=2; $i < $totalArgumentos; $i++){
+			   array_walk($arrArgumentos[$i], 'test_alter');
+				 $strValores = '('. implode(', ', $arraArgumentos[$i]) .')';
+
+				 $arrStrTodosValores[] = $strValores;
+		 }
+
+		 $this->startTransaction();
+
+		 foreach ($arrStrTodosValores as $strValorEmLoop){
+			   $this->executaSQL("insert into $nomeDaTabela($strCampos) values $strValorEmLoop; ");
+		 }
+
+		 $this->commit();
+
+		 return true;
+
+
+		 /*
      $fie = implode("," , $fields);
 		 $val = implode("','" , $values);
 
 		 $this->startTransaction();
 		 $this->executaSQL("INSERT INTO ".$table." (".$fie.") values ('".$val."')");
 		 $this->commit();
+		 */
 	 }
 
 	 // função criada em aula ---------------

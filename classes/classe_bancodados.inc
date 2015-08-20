@@ -86,14 +86,22 @@ abstract class BancoDados {
 	}
 
 
+
+  // Transações MYSQL --------------------
 	public function startTransaction() {
+		   $this->executaSQL('START TRANSACTION');
 	}
 
 	public function commit() {
+		   $this->executaSQL('COMMIT');
 	}
 
 	public function ROLLBACK() {
+		   $this->executaSQL('ROLLBACK');
 	}
+  // Transações MYSQL --------------------
+
+
 
 	protected function isSELECT($_sql,$_res) {
 	}
@@ -160,4 +168,21 @@ class mysql extends BancoDados{
 	 public function executaSQL($_sql){
 		  return $this->GetConn()->query($_sql);
 	 }
+
+
+	 // função criada em aula ---------------
+
+	 public function insertSQL($table, $fields, $values){
+
+     $fie = implode("," , $fields);
+		 $val = implode("','" , $values);
+
+		 $this->startTransaction();
+		 $this->executaSQL("INSERT INTO ".$table." (".$fie.") values ('".$val."')");
+		 $this->commit();
+	 }
+
+	 // função criada em aula ---------------
+
+
 }

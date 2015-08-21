@@ -20,8 +20,8 @@ abstract class BancoDados {
 
 	abstract public function Conectar();
 	abstract public function executaSQL($_sql);
-	/*abstract protected function SetNumRows();
-	abstract protected function navegainterno($_pos);
+	abstract protected function SetNumRows();
+	/*abstract protected function navegainterno($_pos);
 	abstract protected function proximointerno();
 	abstract public function escapeString($_str);
 	abstract public function getLimit($_arr);
@@ -106,26 +106,146 @@ abstract class BancoDados {
 	protected function isSELECT($_sql,$_res) {
 	}
 
-	public function setCase($_case=CASE_UPPER) {
+
+	public function find($onde, $peloque, $qualvalor, $buscaInterna = false){
+
+      $conector = ' = ';
+
+		  if ($buscaInterna && !is_numeric($qualvalor)){
+			   $conector = " LIKE ";
+				 $qualvalor = "%$qualvalor%";
+		  }
+
+		  if (!is_numeric($qualvalor)){
+				 $qualvalor = "'$qualvalor'";
+			}
+
+
+      $sql = "select * from `$onde` where `$peloque` $conector $qualvalor";
+
+      $retorno = $this->executaSQL($sql);
+
+			$this->SetNumRows($retorno);
+			$this->SetResult($retorno);
+
+      return $retorno;
 	}
 
+
+  public function SetResult($resultado){
+		  $this->resultado = $resultado;
+	}
+
+
+	public function GetResult($registro){
+
+		  if ($registro >= 0 && $this->resultado->data_seek($registro)){
+				  return $this->resultado->fetch_assoc();
+			}
+
+			else if ($registro > 0){
+				  return $this->ultimo();
+			}
+
+			else{
+				  return $this->primeiro();
+			}
+
+	}
+
+
+	public function navega($registro) {
+
+		  if($registro == 'primeiro'){
+				  return $this->primeiro();
+			}
+
+			if($registro == 'ultimo'){
+				  return $this->ultimo();
+			}
+
+		  return $this->GetResult($registro);
+	}
+
+
+	public function primeiro(){
+		  return $this->GetResult(0);
+	}
+
+
+	public function anterior(){
+			$resultSet = $this->GetResultado();
+			return $resultSet->next_result();
+	}
+
+
+	public function ultimo(){
+		  $ultimo = $this->getNumRows()-1;
+			return $this->GetResult($ultimo);
+	}
+
+
+	public function SetNumRows($retorno) {
+			$this->_numrows = $retorno->num_rows;
+	}
+
+
 	public function getNumRows() {
+			return $this->_numrows;
+	}
+
+
+	public function setCase($_case=CASE_UPPER) {
 	}
 
 	public function transforma() {
 	}
 
-	public function navega() {
+
+
+  /*
+
+	public function primeiro(){
+			if(!this->_posatual){
+				 $this->_posatual = 0;
+			}
+
+			return $this->_posatual;
 	}
 
-	public function primeiro() {
-	}
 
 	public function proximo() {
+      $resultSet = $this->GetResult();
+			$this->SetAnterior();
+			$this->SetAtual();
+			$this->SetProximo();
+
+			return $resultSet->next_result();
 	}
 
-	public function anterior() {
+
+	public function anterior(){
+	    $resultSet = $this->GetResult();
+			return $resultSet->next_result();
+  }
+
+
+	public function SetAnterior() {
+		  $this->_posanterior = $this->GetAtual();
 	}
+
+
+	public function SetAtual($ponteiro){
+		  $this->_posanterior = $this->GetAtual()+1;
+	}
+
+
+	public function GetAtual(){
+		  return $this->_posatual;
+	}
+
+	*/
+
 
 	public function ultimo() {
 	}

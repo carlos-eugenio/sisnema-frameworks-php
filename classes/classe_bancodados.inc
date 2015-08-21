@@ -20,8 +20,8 @@ abstract class BancoDados {
 
 	abstract public function Conectar();
 	abstract public function executaSQL($_sql);
-	abstract protected function SetNumRows();
-	/*abstract protected function navegainterno($_pos);
+	/*abstract protected function SetNumRows();
+	abstract protected function navegainterno($_pos);
 	abstract protected function proximointerno();
 	abstract public function escapeString($_str);
 	abstract public function getLimit($_arr);
@@ -246,9 +246,6 @@ abstract class BancoDados {
 
 	*/
 
-
-	public function ultimo() {
-	}
 
 	public function getDadosAtual() {
 	}

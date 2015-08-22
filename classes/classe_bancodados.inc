@@ -173,15 +173,15 @@ abstract class BancoDados {
 	}
 
 
-	public function anterior(){
-			$resultSet = $this->GetResultado();
-			return $resultSet->next_result();
-	}
-
-
 	public function ultimo(){
 		  $ultimo = $this->getNumRows()-1;
 			return $this->GetResult($ultimo);
+	}
+
+
+	public function anterior(){
+			$resultSet = $this->GetResult();
+			return $resultSet->next_result();
 	}
 
 
@@ -311,6 +311,49 @@ class mysql extends BancoDados{
 
 		 foreach ($arrStrTodosValores as $strValorEmLoop){
 			   $this->executaSQL("insert into $nomeDaTabela($strCampos) values $strValorEmLoop; ");
+		 }
+
+		 $this->commit();
+
+		 return true;
+
+
+		 /*
+     $fie = implode("," , $fields);
+		 $val = implode("','" , $values);
+
+		 $this->startTransaction();
+		 $this->executaSQL("INSERT INTO ".$table." (".$fie.") values ('".$val."')");
+		 $this->commit();
+		 */
+	 }
+
+
+
+	 public function atualizaSQL($nomeDaTabela, $id, $arrCampos, $arrValores){
+
+     $strCampos = implode(', ', $arrCampos);
+		 $totalArgumentos = func_num_args();
+		 $arrArgumentos = func_get_args();
+		 $arrStrTodosValores = array();
+
+		 function test_alter(&$item) {
+			   $item = "'$item'";
+		 }
+
+		 for ($i=2; $i < $totalArgumentos; $i++){
+			   array_walk($arrArgumentos[$i], 'test_alter');
+				 $strValores = '('. implode(', ', $arrArgumentos[$i]) .')';
+
+				 $arrStrTodosValores[] = $strValores;
+		 }
+
+		 $this->startTransaction();
+
+		 foreach ($arrStrTodosValores as $strValorEmLoop){
+			   //$this->executaSQL("UPDATE $nomeDaTabela SET $strCampos='".$strValorEmLoop."' WHERE id = $id"; ");
+
+				 echo "UPDATE $nomeDaTabela SET $strCampos=".$strValorEmLoop." WHERE id = $id".'<br><br><br><br><br><br>';
 		 }
 
 		 $this->commit();

@@ -360,6 +360,25 @@ class mysql extends BancoDados{
 	   }
 	 }
 
+
+
+	 public function deletaSQL($nomeDaTabela, $id){
+
+		 $this->startTransaction();
+
+		 $status = $this->executaSQL("DELETE FROM $nomeDaTabela WHERE id=$id");
+
+		 if ($status){
+			 $this->commit();
+			 return $id;
+		 }
+
+		 if (!$status){
+		    $this->ROLLBACK();
+				return false;
+	   }
+	 }
+
 	 // função criada em aula ---------------
 
 

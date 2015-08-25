@@ -6,13 +6,18 @@ require_once('classes/classe_bancodados.inc');
 
 $db = new mysql();
 
-if(isset($_POST['id'])){
+if(isset($_POST['acao'])){
+
+  if($_POST['acao'] == 'editar'){
   $fields = array('nome','senha');
   $values = array($_POST['nome'] , $_POST['senha']);
+  $result = $db->atualizaSQL('usuarios', $_POST['id'], $fields, $values);
+  }
+
+  if($_POST['acao'] == 'deletar'){
+  $result = $db->deletaSQL('usuarios', $_POST['id']);
+  }
 }
-
-$result = $db->atualizaSQL('usuarios', $_POST['id'], $fields, $values);
-
 
 
 if ($result != FALSE){

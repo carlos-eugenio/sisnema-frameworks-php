@@ -22,7 +22,7 @@ echo '<table>'
      .'</tr>'
      .'<tr>'
      .'<td>&nbsp;</td>'
-     .'</tr>';;
+     .'</tr>';
 
 foreach ($resultado as $pos => $item) {
     echo '<tr>'

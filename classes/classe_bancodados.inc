@@ -332,43 +332,32 @@ class mysql extends BancoDados{
 
 	 public function atualizaSQL($nomeDaTabela, $id, $arrCampos, $arrValores){
 
-     $strCampos = implode(', ', $arrCampos);
-		 $totalArgumentos = func_num_args();
-		 $arrArgumentos = func_get_args();
-		 $arrStrTodosValores = array();
-
-		 function test_alter(&$item) {
-			   $item = "'$item'";
-		 }
-
-		 for ($i=2; $i < $totalArgumentos; $i++){
-			   array_walk($arrArgumentos[$i], 'test_alter');
-				 $strValores = '('. implode(', ', $arrArgumentos[$i]) .')';
-
-				 $arrStrTodosValores[] = $strValores;
-		 }
-
 		 $this->startTransaction();
 
-		 foreach ($arrStrTodosValores as $strValorEmLoop){
-			   //$this->executaSQL("UPDATE $nomeDaTabela SET $strCampos='".$strValorEmLoop."' WHERE id = $id"; ");
+     $arrConta = count($arrCampos);
 
-				 echo "UPDATE $nomeDaTabela SET $strCampos=".$strValorEmLoop." WHERE id = $id".'<br><br><br><br><br><br>';
+     for ($i=0; $i < $arrConta; $i++){
+			 $arrUpdate[] = array($arrCampos[$i].' = '."'".$arrValores[$i]."'");
+     }
+
+
+		 foreach ($arrUpdate as $arrUp){
+			   $status = $this->executaSQL("UPDATE $nomeDaTabela SET ".$arrUp[0]." WHERE id = $id");
+
+				 if (!$status){
+					   $errSQL = TRUE;
+				 }
 		 }
 
-		 $this->commit();
+     if (!isset($errSQL)){
+		    $this->commit();
+				return $id;
+	   }
 
-		 return true;
-
-
-		 /*
-     $fie = implode("," , $fields);
-		 $val = implode("','" , $values);
-
-		 $this->startTransaction();
-		 $this->executaSQL("INSERT INTO ".$table." (".$fie.") values ('".$val."')");
-		 $this->commit();
-		 */
+		 if ($errSQL == TRUE){
+		    $this->ROLLBACK();
+				return false;
+	   }
 	 }
 
 	 // função criada em aula ---------------

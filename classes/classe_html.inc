@@ -37,20 +37,23 @@ class atributo {
     protected $_nome;
     protected $_valor;
 
-    public function __construct() {
+    public function __construct($nome, $valor = null) {
+       $this->_nome = $nome;
+			 $this->_valor = $valor;
 
+			 return $this;
     }
 
     public function getAtributo() {
-
+       return "{$this->_nome}".($this->_valor !== null ? "=\"{$this->_valor}\"":"");
     }
 
     public function getNome() {
-
+       return $this->_nome;
     }
 
     public function getValor() {
-
+       return $this->_valor;
     }
 }
 
@@ -98,7 +101,9 @@ class tipospadrao {
 }
 
 public function getTipo($_tipo) {
+	return $this_
 }
+
 }
 
 ?>

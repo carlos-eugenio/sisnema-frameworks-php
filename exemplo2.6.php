@@ -32,7 +32,7 @@ foreach ($resultado as $pos => $item) {
          .'<td>'.$item['id'].' - '.$item['nome'].'</td>'
          .'</tr>'
          .'<tr>'
-         .'<td><a href="exemplo2.6form.php?acao=editar&id='.$item['id'].'&nome='.$item['nome'].'">Editar</a>&nbsp;&nbsp;<a href="exemplo2.6form.php?acao=deletar&id='.$item['id'].'&nome='.$item['nome'].'">Deletar</a></td>'
+         .'<td><a href="exemplo2.6form.php?acao=editar&id='.$item['id'].'&nome='.$item['nome'].'">Editar</a>&nbsp;&nbsp;<a href="exemplo2.6deletar.php?acao=deletar&id='.$item['id'].'">Deletar</a></td>'
          .'</tr>'
          .'<tr>'
          .'<td>&nbsp;</td>'

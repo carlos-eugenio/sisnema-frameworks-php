@@ -106,4 +106,78 @@ public function getTipo($_tipo) {
 
 }
 
+
+
+/**
+ * Classe que contém tags HTML
+ *
+ */
+class tag {
+    protected $_tipo;
+    protected $_atributos = Array();
+    protected $_valor;
+    protected $_subtags = Array();
+
+    public function __construct(tipotag $_tipo,$_atributos=Array(),$_valor=null) {
+        $this->_tipo = $_tipo;
+        $this->_atributos = (is_array($_atributos) ?  $_atributos : Array());
+        $this->_valor = $_valor;
+        return $this;
+    }
+
+    public function setValor() {
+
+    }
+
+    public function append() {
+
+    }
+
+    public function addAtributo() {
+    }
+
+    public function deleteAtributo() {
+
+    }
+
+    public function clearAtributos() {
+
+    }
+
+    public function addSubTag() {
+
+    }
+
+    public function deleteSubTag() {
+
+    }
+
+    public function clearSubTags() {
+
+    }
+
+    public function toHTML() {
+
+    }
+
+    public function getTipo() {
+
+    }
+
+    public function getAtributos() {
+
+    }
+
+    public function getLastSubTag() {
+
+    }
+
+}
+
+
+
+
+
+
+
 ?>

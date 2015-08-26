@@ -101,7 +101,7 @@ class tipospadrao {
 }
 
 public function getTipo($_tipo) {
-	return $this_
+	return $this->_tipo[$_tipo];
 }
 
 }
@@ -125,39 +125,56 @@ class tag {
         return $this;
     }
 
-    public function setValor() {
-
+    public function setValor($valor) {
+        $this->_valor = $valor;
     }
 
-    public function append() {
-
+    public function append($valor) {
+        $this->_valor .= $valor;
     }
 
-    public function addAtributo() {
+    public function addAtributo(atributo $atributo = null) {
+			  $this->_atributos[] = $_atributo;
+				return sizeof($this->_atributos)-1;
     }
 
-    public function deleteAtributo() {
-
+    public function deleteAtributo($_atributo) {
+        unset($this->_atributos[$_atributo]);
     }
 
     public function clearAtributos() {
-
+        $this->_atributos = array();
     }
 
-    public function addSubTag() {
-
+    public function addSubTag(tag $_subtag) {
+        $this->_subtags[] = $_subtag;
+				return sizeof($this->_subtags)-1;
     }
 
     public function deleteSubTag() {
-
+        unset($this->_subtags[$_id]);
     }
 
     public function clearSubTags() {
-
+        $this->_subtags = array();
     }
 
     public function toHTML() {
+        $_html = "<{$this->_tipo->getNome()}";
 
+				foreach ($this->_atributos as $_att) {
+            $_html .= $_att->getAtributo();
+				}
+
+				$_html .= ">{$this->_valor}";
+
+				foreach ($this->_subtags as $subtag) {
+					 $_html .= $_subtag->toHTML();
+				}
+
+				$_html .= ($this->_tipo->getFinaliza() === true) ? "</{this->_tipo->getNome()}>" : "" );
+
+				return $_html;
     }
 
     public function getTipo() {

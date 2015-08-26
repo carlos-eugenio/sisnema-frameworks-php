@@ -38,7 +38,7 @@ class tipotag {
 	protected $_nome;
 	protected $_finaliza = true;
 
-	public function __construct($nome, $finaliza) {
+	public function __construct($nome, $finaliza = true) {
       $this->_nome = $nome;
 			$this->_finaliza = $finaliza;
 
@@ -54,8 +54,6 @@ class tipotag {
 	}
 
 }
-
-$variavelQualquer = new tipotag();
 
 
 /**
@@ -130,7 +128,7 @@ class tipospadrao {
 }
 
 public function getTipo($_tipo) {
-	return $this->_tipo[$_tipo];
+	  return $this->_tipos[strtoupper($_tipo)];
 }
 
 }
@@ -198,10 +196,10 @@ class tag {
 				$_html .= ">{$this->_valor}";
 
 				foreach ($this->_subtags as $subtag) {
-					 $_html .= $_subtag->toHTML();
+					 $_html .= $subtag->toHTML();
 				}
 
-				$_html .= ($this->_tipo->getFinaliza() === true) ? "</{this->_tipo->getNome()}>" : "" );
+				$_html .= ($this->_tipo->getFinaliza() === true ? "</{this->_tipo->getNome()}>" : "" );
 
 				return $_html;
     }

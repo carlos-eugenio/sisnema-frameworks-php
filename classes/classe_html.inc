@@ -1,5 +1,34 @@
 <?php
+/**
+ * Classe para gerenciamento de HTML
+ *
+ */
+class html {
+    protected $_tags = Array();
+    protected $_otimizado = true;
 
+    public function addTag(tag $_tag) {
+        $this->_tags[] = $_tag;
+        return sizeof($this->_tags)-1;
+    }
+
+    public function setOtimizado($_ot) {
+        $this->_otimizado = (bool) $_ot;
+    }
+
+    public function deleteTag($_id) {
+        unset($this->_tags[$_id]);
+    }
+
+    public function toHTML() {
+        $_html = "";
+        foreach($this->_tags as $_tag) {
+            $_html .= $_tag->toHTML($this->_otimizado);
+        }
+        return $_html;
+    }
+
+}
 
 /**
  * Define os tipos de TAG HTML disponiveis
@@ -192,6 +221,46 @@ class tag {
 }
 
 
+/**
+ * Classe geradora de uma lista de Eventos
+ */
+class Eventos {
+    protected $_eventos = Array();
+
+    public function addEvento($_tipo="ONCLICK",$_evento="") {
+    }
+
+    public function deleteEvento($_tipo) {
+    }
+
+    public function clearEventos() {
+    }
+
+    public function getEventos() {
+    }
+
+    public function setOnclick($_evento) {
+    }
+
+    public function setOnChange($_evento) {
+    }
+
+    public function setOnFocus($_evento) {
+    }
+
+    public function setOnBlur($_evento) {
+    }
+
+    public function setOnMouseOver($_evento) {
+    }
+
+    public function setOnMouseOut($_evento) {
+    }
+
+    public function setOnKeyPress($_evento) {
+    }
+
+}
 
 
 
